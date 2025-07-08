@@ -33,7 +33,6 @@ export class AuthService {
     if (!findUser) return null;
     if (password === findUser.password) {
       const { password, ...user } = findUser;
-      console.log(this.configService.get<string>('MONGO_URI'));
       return this.jwtService.sign(user);
     }
   }
