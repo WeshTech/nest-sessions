@@ -32,7 +32,7 @@ export class UsersService {
     return result;
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string): Promise<User | null> {
     return await this.userModel.findOne({ email });
   }
 }
