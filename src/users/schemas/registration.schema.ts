@@ -47,7 +47,7 @@ export class User extends Document {
     required: true,
     select: false,
   })
-  password: String;
+  password: string;
 
   @Prop({
     type: Boolean,
