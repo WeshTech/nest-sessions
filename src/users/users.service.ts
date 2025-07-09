@@ -12,11 +12,9 @@ export class UsersService {
   ) {}
 
   async registerUser(registerUserDto: RegisterUserDto) {
-    const existingUser = await this.userModel
-      .findOne({
-        email: registerUserDto.email,
-      })
-      .exec();
+    const existingUser = await this.userModel.findOne({
+      email: registerUserDto.email,
+    });
 
     if (existingUser) {
       throw new ConflictException('Email in use or Account Blocked');
@@ -31,10 +29,10 @@ export class UsersService {
     });
 
     const { password, ...result } = createdUser.toJSON();
-    return { result, message: `User Registration Success` };
+    return result;
   }
 
   async findByEmail(email: string) {
-    return this.userModel.findOne({ email }).exec();
+    return await this.userModel.findOne({ email });
   }
 }

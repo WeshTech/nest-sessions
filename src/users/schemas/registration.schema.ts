@@ -5,7 +5,7 @@ export enum BusinessType {
   ELECTRONICS = 'electronics',
   PHARMACY = 'pharmacy',
   BOOKSHOP = 'bookshop',
-  GENERAL_SHOP = 'general shop',
+  GENERAL_SHOP = 'general_shop',
   HARDWARE = 'hardware',
   AGROVET = 'agrovet',
 }
