@@ -14,13 +14,15 @@ import { Request } from 'express';
 import { userInterface } from './interfaces/user.interface';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
+import { LocalAuthGuard } from './utils/localGuard';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @UseGuards(localGuard)
+  @UseGuards(LocalAuthGuard)
   async login(@Req() req: Request) {
     if (req.user) {
       const access_token = await this.authService.login(
@@ -34,7 +36,7 @@ export class AuthController {
   }
 
   @Get('status')
-  @UseGuards(RolesGuard)
-  @Roles('admin')
+  @UseGuards(AuthenticatedGuard)
+  // @Roles('admin')
   status(@Req() req: Request) {}
 }

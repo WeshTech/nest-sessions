@@ -20,7 +20,8 @@ export class AuthService {
   }: LoginDto): Promise<userInterface | null> {
     const user = await this.userService.findUserByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
-      const { password, __v, ...result } = user.toObject();
+      const { password, __v, createdAt, updatedAt, ...result } =
+        user.toObject();
       return result;
     }
     return null;

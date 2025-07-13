@@ -7,6 +7,7 @@ import envConfig from './config/envConfig';
 import { envConfigSchema } from './config/envConfig.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
       },
       isGlobal: true,
     }),
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -27,6 +29,11 @@ import { UsersModule } from './users/users.module';
       }),
       inject: [ConfigService],
     }),
+
+    PassportModule.register({
+      session: true,
+    }),
+
     AuthModule,
     UsersModule,
   ],
