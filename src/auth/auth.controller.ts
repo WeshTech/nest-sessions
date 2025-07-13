@@ -1,17 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  Post,
-  Req,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { localGuard } from './guards/local.guard';
 import { Request } from 'express';
-import { userInterface } from './interfaces/user.interface';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { LocalAuthGuard } from './utils/localGuard';
@@ -24,19 +13,11 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(@Req() req: Request) {
-    if (req.user) {
-      const access_token = await this.authService.login(
-        req.user as userInterface,
-      );
-      if (!access_token) {
-        throw new UnauthorizedException('Something went wrong');
-      }
-      return access_token;
-    }
+    return req.user;
   }
 
   @Get('status')
-  @UseGuards(AuthenticatedGuard)
-  // @Roles('admin')
+  @UseGuards(AuthenticatedGuard, RolesGuard)
+  @Roles('owner')
   status(@Req() req: Request) {}
 }
