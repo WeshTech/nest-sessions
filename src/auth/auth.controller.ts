@@ -11,7 +11,6 @@ import {
 import { AuthService } from './auth.service';
 import { localGuard } from './guards/local.guard';
 import { Request } from 'express';
-import { JwtAuthGuard } from './guards/jwt.guard';
 import { userInterface } from './interfaces/user.interface';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
@@ -35,7 +34,7 @@ export class AuthController {
   }
 
   @Get('status')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles('admin')
   status(@Req() req: Request) {}
 }
