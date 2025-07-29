@@ -1,9 +1,9 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './schemas/registration.schema';
 import { RegisterUserDto } from './dtos/register.dto';
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
+import { User } from 'src/schemas/user.schema';
 
 @Injectable()
 export class UsersService {
@@ -38,5 +38,14 @@ export class UsersService {
 
   async findUserById(id: string): Promise<User | null> {
     return await this.userModel.findById(id);
+  }
+
+  async updateUserLoginStatus(
+    sessionId: Schema.Types.ObjectId,
+    userId: string,
+  ) {
+    await this.userModel.findByIdAndUpdate(userId, {
+      $set: { activeSessionId: sessionId },
+    });
   }
 }

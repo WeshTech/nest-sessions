@@ -53,6 +53,12 @@ export class User extends Document {
     default: true,
   })
   isVerified: boolean;
+
+  @Prop({
+    type: String,
+    default: null,
+  })
+  activeSessionId: string | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -5,6 +5,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { LocalAuthGuard } from './utils/localGuard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { Schema } from 'mongoose';
 
 @Controller('auth')
 export class AuthController {
@@ -13,7 +14,11 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(@Req() req: Request) {
-    return req.user;
+    console.log({ decodedUser: req.user });
+    await this.authService.userLogin(
+      req.user as unknown as string,
+      req.sessionID as unknown as Schema.Types.ObjectId,
+    );
   }
 
   @Get('status')
